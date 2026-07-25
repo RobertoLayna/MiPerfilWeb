@@ -50,4 +50,19 @@ import Contact from "../components/Contact.astro";
   if (avatar) {
     setTimeout(() => avatar.classList.add("glow"), 400);
   }
+
+  const navLinks = document.querySelectorAll(".nav-links a[data-section]");
+  const sections = document.querySelectorAll("section[id]");
+  const sectionObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        navLinks.forEach((link) => {
+          link.classList.toggle("active", link.dataset.section === entry.target.id);
+        });
+      });
+    },
+    { rootMargin: "-30% 0px -60% 0px", threshold: 0 }
+  );
+  sections.forEach((s) => sectionObserver.observe(s));
 </script>
