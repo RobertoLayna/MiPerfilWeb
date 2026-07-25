@@ -1,0 +1,115 @@
+---
+const categories = [
+  {
+    title: "Frontend",
+    delay: "0",
+    tags: ["React", "Vue.js", "Next.js", "Nuxt", "Flutter", "Tailwind CSS", "Vuetify"],
+  },
+  {
+    title: "Backend & Datos",
+    delay: "100",
+    tags: ["NestJS", "Node.js", "Python", "PostgreSQL", "MongoDB", "Redis", "GraphQL", "REST APIs"],
+  },
+  {
+    title: "Infra & Tiempo real",
+    delay: "200",
+    tags: ["Docker", "Microservicios", "BullMQ", "Sockets", "TypeScript", "JavaScript", "SQL"],
+  },
+  {
+    title: "IA & LLMs",
+    delay: "300",
+    tags: ["LLMs", "RAG", "Agentes IA", "APIs de IA", "Prompt Engineering"],
+  },
+];
+---
+
+<section class="skills" id="skills">
+  <div class="container">
+    <p class="section-label reveal" data-reveal-delay="0">Stack técnico</p>
+    <h2 class="section-title reveal" data-reveal-delay="80">Tecnologías con las que trabajo</h2>
+    <div class="skills-grid">
+      {categories.map((cat) => (
+        <div class="skill-category reveal" data-reveal-delay={cat.delay}>
+          <h3>{cat.title}</h3>
+          <div class="skill-tags">
+            {cat.tags.map((tag) => <span class="skill-tag">{tag}</span>)}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+.skills {
+  padding: var(--section-y-desktop) 0;
+  border-top: 1px solid var(--border-soft);
+}
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-6);
+  margin-top: var(--space-8);
+}
+.skill-category {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  transition: transform 0.25s var(--ease-standard), box-shadow 0.25s var(--ease-standard), border-color 0.25s var(--ease-standard);
+}
+.skill-category:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--elev-raised);
+  border-color: color-mix(in oklab, var(--accent), transparent 60%);
+}
+.skill-category h3 {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 590;
+  color: var(--fg);
+  letter-spacing: 0.02em;
+  margin-bottom: var(--space-3);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.skill-category h3::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  background: var(--fg-2);
+  border-radius: 50%;
+}
+.skill-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.skill-tag {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 510;
+  color: var(--fg-2);
+  background: var(--surface-warm);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-sm);
+  padding: var(--space-1) var(--space-3);
+  letter-spacing: 0.02em;
+  line-height: 1.5;
+  transition: transform 0.2s var(--ease-standard), background 0.2s var(--ease-standard), color 0.2s var(--ease-standard), border-color 0.2s var(--ease-standard);
+}
+.skill-tag:hover {
+  transform: translateY(-1px) scale(1.04);
+  background: color-mix(in oklab, var(--accent), transparent 88%);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+@media (max-width: 960px) {
+  .skills-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 768px) {
+  .skills-grid { grid-template-columns: 1fr; }
+}
+</style>

@@ -1,0 +1,51 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import Marquee from "../components/Marquee.astro";
+import Skills from "../components/Skills.astro";
+import Projects from "../components/Projects.astro";
+import Contact from "../components/Contact.astro";
+---
+
+<BaseLayout>
+  <Hero />
+  <Marquee />
+  <Skills />
+  <Projects />
+  <Contact />
+</BaseLayout>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      const delay = parseInt(el.getAttribute("data-reveal-delay")) || 0;
+      setTimeout(() => el.classList.add("revealed"), delay);
+      observer.unobserve(el);
+    });
+  }, { threshold: 0.15, rootMargin: "0px 0px -30px 0px" });
+
+  document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+
+  const nav = document.querySelector(".nav");
+  let ticking = false;
+  window.addEventListener("scroll", () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        if (window.scrollY > 20) {
+          nav.classList.add("scrolled");
+        } else {
+          nav.classList.remove("scrolled");
+        }
+        ticking = false;
+      });
+      ticking = true;
+    }
+  });
+
+  const avatar = document.querySelector(".placeholder-avatar");
+  if (avatar) {
+    setTimeout(() => avatar.classList.add("glow"), 400);
+  }
+</script>

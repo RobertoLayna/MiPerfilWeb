@@ -1,0 +1,139 @@
+---
+const projects = [
+  {
+    name: "[Nombre del SaaS]",
+    role: "Fundador & Desarrollador",
+    description: "[Una línea que describa qué hace el producto y qué problema resuelve.]",
+    stack: ["Next.js", "TypeScript", "Stripe"],
+    link: "#",
+    delay: "0",
+  },
+  {
+    name: "[Nombre del SaaS]",
+    role: "Tech Lead",
+    description: "[Una línea que describa qué hace el producto y qué problema resuelve.]",
+    stack: ["React", "Node.js", "PostgreSQL"],
+    link: "#",
+    delay: "120",
+  },
+  {
+    name: "[Nombre del SaaS]",
+    role: "Full Stack Developer",
+    description: "[Una línea que describa qué hace el producto y qué problema resuelve.]",
+    stack: ["Vue", "Python", "Docker"],
+    link: "#",
+    delay: "240",
+  },
+  {
+    name: "[Nombre del SaaS]",
+    role: "Co-fundador & CTO",
+    description: "[Una línea que describa qué hace el producto y qué problema resuelve.]",
+    stack: ["Next.js", "GraphQL", "AWS"],
+    link: "#",
+    delay: "360",
+  },
+];
+---
+
+<section class="projects" id="projects">
+  <div class="container">
+    <p class="section-label reveal" data-reveal-delay="0">Proyectos SaaS</p>
+    <h2 class="section-title reveal" data-reveal-delay="80">Lo que construí</h2>
+    <div class="projects-grid">
+      {projects.map((proj) => (
+        <div class="project-card reveal" data-reveal-delay={proj.delay}>
+          <h3>{proj.name}</h3>
+          <p class="project-role">{proj.role}</p>
+          <p>{proj.description}</p>
+          <div class="project-stack">
+            {proj.stack.map((tech, i) => (
+              <>
+                {i > 0 && <span class="stack-sep">•</span>}
+                <span>{tech}</span>
+              </>
+            ))}
+          </div>
+          <a href={proj.link} class="project-link">&rarr; Ver proyecto</a>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+.projects {
+  padding: var(--section-y-desktop) 0;
+  border-top: 1px solid var(--border-soft);
+}
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-6);
+  margin-top: var(--space-8);
+}
+.project-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  transition: transform 0.3s var(--ease-standard), box-shadow 0.3s var(--ease-standard), border-color 0.25s var(--ease-standard);
+}
+.project-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--elev-raised);
+  border-color: var(--accent);
+}
+.project-card h3 {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 700;
+  line-height: var(--leading-tight);
+  letter-spacing: -0.01em;
+  color: var(--fg);
+}
+.project-card .project-role {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 510;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: var(--space-2);
+}
+.project-card p {
+  font-size: var(--text-base);
+  color: var(--fg-2);
+  margin-top: var(--space-3);
+  max-width: 55ch;
+}
+.project-card .project-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+.project-card .project-stack span {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 510;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+.project-card .project-link {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 510;
+  color: var(--fg-2);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  letter-spacing: 0.02em;
+  margin-top: var(--space-4);
+  transition: color var(--motion-fast) var(--ease-standard);
+}
+.project-card .project-link:hover { color: var(--accent); }
+
+@media (max-width: 768px) {
+  .projects-grid { grid-template-columns: 1fr; }
+}
+</style>
