@@ -76,18 +76,92 @@ const translationsJSON = JSON.stringify(translations);
         }
       }
 
+      function typeAnimate(el, newText, callback) {
+        var oldText = el.textContent;
+        var i = oldText.length;
+        var DELETE_MS = 12;
+        var TYPE_MS = 28;
+
+        function erase() {
+          if (i <= 0) {
+            var j = 0;
+            function typeChar() {
+              if (j <= newText.length) {
+                el.textContent = newText.slice(0, j);
+                j++;
+                setTimeout(typeChar, TYPE_MS);
+              } else if (callback) {
+                callback();
+              }
+            }
+            typeChar();
+            return;
+          }
+          el.textContent = oldText.slice(0, i - 1);
+          i--;
+          setTimeout(erase, DELETE_MS);
+        }
+        erase();
+      }
+
+      var typing = false;
+
       window.switchLang = function (lang) {
+        if (typing) return;
+        var btn = document.getElementById("langToggle");
+        if (btn) btn.disabled = true;
         try { localStorage.setItem(STORAGE_KEY, lang); } catch (_) {}
-        var main = document.querySelector("main");
-        if (!main) { apply(lang); return; }
 
-        main.addEventListener("transitionend", function handler() {
-          main.removeEventListener("transitionend", handler);
-          apply(lang);
-          main.classList.remove("lang-fade");
-        }, { once: true });
+        var items = [];
+        document.querySelectorAll("[data-i18n]").forEach(function (el) {
+          var key = el.getAttribute("data-i18n");
+          var entry = dict[key];
+          if (!entry) return;
+          if (!el.hasAttribute("data-i18n-orig")) {
+            el.setAttribute("data-i18n-orig", el.textContent);
+          }
+          var next = lang === DEFAULT
+            ? el.getAttribute("data-i18n-orig")
+            : (entry[lang] || entry[DEFAULT] || el.getAttribute("data-i18n-orig"));
+          if (el.textContent === next) return;
+          var rect = el.getBoundingClientRect();
+          items.push({ el: el, text: next, top: rect.top + window.scrollY });
+        });
 
-        main.classList.add("lang-fade");
+        items.sort(function (a, b) { return a.top - b.top; });
+
+        typing = true;
+        var stagger = 60;
+
+        function run(i) {
+          if (i >= items.length) {
+            document.querySelectorAll("[data-i18n-html]").forEach(function (el) {
+              var key = el.getAttribute("data-i18n-html");
+              var entry = dict[key];
+              if (!entry) return;
+              if (!el.hasAttribute("data-i18n-html-orig")) {
+                el.setAttribute("data-i18n-html-orig", el.innerHTML);
+              }
+              el.innerHTML = lang === DEFAULT
+                ? el.getAttribute("data-i18n-html-orig")
+                : (entry[lang] || entry[DEFAULT] || el.getAttribute("data-i18n-html-orig"));
+            });
+
+            document.documentElement.lang = lang;
+            var titleEntry = dict["page.title"];
+            if (titleEntry) {
+              document.title = titleEntry[lang] || titleEntry[DEFAULT] || document.title;
+            }
+            typing = false;
+            if (btn) btn.disabled = false;
+            return;
+          }
+          var item = items[i];
+          typeAnimate(item.el, item.text, function () {
+            setTimeout(function () { run(i + 1); }, stagger);
+          });
+        }
+        run(0);
       };
 
       var saved = getLang();
@@ -175,15 +249,6 @@ body {
   color: var(--fg);
   background: var(--bg);
   -webkit-font-smoothing: antialiased;
-}
-
-main {
-  opacity: 1;
-  transition: opacity 220ms var(--ease-standard);
-}
-
-main.lang-fade {
-  opacity: 0;
 }
 
 .container {
