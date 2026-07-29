@@ -3,7 +3,22 @@ import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
 import LangSwitcher from "../components/LangSwitcher.astro";
 import { translations } from "../i18n/translations.js";
+const site = "https://robertolayna.dev";
+const metaDesc = "Roberto Robles Layna — Full Stack Developer con 8+ años de experiencia. Especializado en Vue, React, Next.js, NestJS, Python, Flutter y arquitecturas cloud escalables.";
+const canonical = site + "/";
 const translationsJSON = JSON.stringify(translations);
+const schemaJSON = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Roberto Robles Layna",
+  "jobTitle": "Full Stack Developer",
+  "url": canonical,
+  "sameAs": [
+    "https://github.com/RobertoLayna",
+    "https://www.linkedin.com/in/roberto-robles-layna/"
+  ],
+  "image": site + "/avatar.png",
+});
 ---
 
 <!DOCTYPE html>
@@ -11,8 +26,22 @@ const translationsJSON = JSON.stringify(translations);
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Roberto Robles Layna — Desarrollador Full Stack</title>
+  <meta name="description" content={metaDesc}>
+  <link rel="canonical" href={canonical}>
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content={canonical}>
+  <meta property="og:title" content="Roberto Robles Layna — Full Stack Developer">
+  <meta property="og:description" content={metaDesc}>
+  <meta property="og:image" content={site + "/avatar.png"}>
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Roberto Robles Layna — Full Stack Developer">
+  <meta name="twitter:description" content={metaDesc}>
+  <meta name="twitter:image" content={site + "/avatar.png"}>
+
+  <script type="application/ld+json" set:html={schemaJSON}></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,510;0,14..32,590;0,14..32,700&family=JetBrains+Mono:ital,wght@0,400;0,510;0,590&display=swap" rel="stylesheet">
