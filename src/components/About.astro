@@ -1,0 +1,65 @@
+---
+const paragraphsEs = [
+  "Ingeniero de Software con más de 8 años de experiencia desarrollando aplicaciones modernas para web, dispositivos móviles y plataformas cloud.",
+  "Especializado en el diseño e implementación de sistemas escalables, desarrollo de APIs y construcción de aplicaciones orientadas al usuario tanto en entornos web como móviles.",
+  "Tengo fuerte experiencia en desarrollo full stack, trabajando con tecnologías como Vue.js, Flutter, Node.js y NestJS. Cuento con experiencia práctica diseñando e implementando arquitecturas basadas en microservicios, incluyendo comunicación síncrona (REST) y asíncrona (mensajería), gestión de colas, procesamiento en background y construcción de sistemas desacoplados y escalables para entornos de alta concurrencia.",
+  "He trabajado con arquitecturas cloud, sistemas en tiempo real y la integración de funcionalidades impulsadas por IA, contribuyendo al diseño de soluciones resilientes orientadas a eventos.",
+  "Adicionalmente, tengo experiencia docente impartiendo clases de programación y desarrollo de software, facilitando el aprendizaje técnico y gestionando dinámicas de grupo. Esto ha fortalecido mis habilidades de comunicación, liderazgo y mentoría.",
+  "He participado en el desarrollo de productos tecnológicos, diseño de arquitectura backend y desarrollo de aplicaciones móviles, colaborando con equipos multidisciplinarios y liderando la implementación de soluciones técnicas para proyectos complejos.",
+];
+
+const paragraphsEn = [
+  "Software Engineer with over 8 years of experience developing modern applications for web, mobile devices, and cloud platforms.",
+  "Specialized in the design and implementation of scalable systems, API development, and building user-oriented applications across both web and mobile environments.",
+  "I have strong full-stack development experience, working with technologies such as Vue.js, Flutter, Node.js, and NestJS. I have hands-on experience designing and implementing microservices-based architectures, including both synchronous (REST) and asynchronous (messaging) communication, queue management, background processing, and building decoupled, scalable systems for high-concurrency environments.",
+  "I have worked with cloud architectures, real-time systems, and the integration of AI-driven functionalities, contributing to the design of resilient, event-driven solutions.",
+  "Additionally, I have teaching experience, delivering classes to groups on programming and software development topics, facilitating technical learning and managing group dynamics. This has strengthened my communication, leadership, and mentoring skills.",
+  "I have been involved in the development of technological products, backend architecture design, and mobile application development, collaborating with multidisciplinary teams and leading the implementation of technical solutions for complex projects.",
+];
+---
+
+<section class="about" id="about">
+  <div class="container about-grid">
+    <div class="about-text">
+      <p class="section-label reveal" data-reveal-delay="0" data-i18n="about.label">Sobre mí</p>
+      <h2 class="section-title reveal" data-reveal-delay="80" data-i18n="about.title">Un poco de mi historia</h2>
+      <div class="about-body">
+        {paragraphsEs.map((p, i) => (
+          <p class="reveal" data-reveal-delay={i * 60 + 120} data-i18n={`about.p${i}`}>{p}</p>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.about {
+  padding: var(--section-y-desktop) 0;
+  border-top: 1px solid var(--border-soft);
+}
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+.about-body {
+  margin-top: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.about-body p {
+  font-size: var(--text-base);
+  color: var(--fg-2);
+  max-width: 72ch;
+  line-height: var(--leading-body);
+}
+.about-text {
+  max-width: 820px;
+}
+
+@media (max-width: 768px) {
+  .about-body p {
+    font-size: var(--text-sm);
+  }
+}
+</style>
