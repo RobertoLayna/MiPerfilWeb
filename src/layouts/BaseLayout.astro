@@ -78,7 +78,16 @@ const translationsJSON = JSON.stringify(translations);
 
       window.switchLang = function (lang) {
         try { localStorage.setItem(STORAGE_KEY, lang); } catch (_) {}
-        apply(lang);
+        var main = document.querySelector("main");
+        if (!main) { apply(lang); return; }
+
+        main.addEventListener("transitionend", function handler() {
+          main.removeEventListener("transitionend", handler);
+          apply(lang);
+          main.classList.remove("lang-fade");
+        }, { once: true });
+
+        main.classList.add("lang-fade");
       };
 
       var saved = getLang();
@@ -166,6 +175,15 @@ body {
   color: var(--fg);
   background: var(--bg);
   -webkit-font-smoothing: antialiased;
+}
+
+main {
+  opacity: 1;
+  transition: opacity 220ms var(--ease-standard);
+}
+
+main.lang-fade {
+  opacity: 0;
 }
 
 .container {
