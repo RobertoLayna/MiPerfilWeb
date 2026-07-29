@@ -134,6 +134,10 @@ const projects = [
 .project-card .project-link:hover { color: var(--accent); }
 
 @media (max-width: 768px) {
+  .projects { padding: var(--section-y-tablet) 0; }
   .projects-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+  .projects { padding: var(--section-y-phone) 0; }
 }
 </style>

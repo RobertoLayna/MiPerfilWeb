@@ -58,8 +58,11 @@ const paragraphsEn = [
 }
 
 @media (max-width: 768px) {
-  .about-body p {
-    font-size: var(--text-sm);
-  }
+  .about { padding: var(--section-y-tablet) 0; }
+  .about-body p { font-size: var(--text-sm); }
+  .about-body { gap: var(--space-3); margin-top: var(--space-4); }
+}
+@media (max-width: 480px) {
+  .about { padding: var(--section-y-phone) 0; }
 }
 </style>

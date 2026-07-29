@@ -84,6 +84,7 @@
 }
 
 @media (max-width: 768px) {
+  .hero { padding: var(--section-y-tablet) 0 var(--section-y-phone); }
   .hero-grid { grid-template-columns: 1fr; gap: var(--space-8); }
   .hero-visual { order: -1; }
   .hero h1 { font-size: var(--text-2xl); }
@@ -92,6 +93,7 @@
 }
 
 @media (max-width: 480px) {
-  .hero h1 { font-size: var(--text-2xl); }
+  .hero { padding: var(--section-y-phone) 0; }
+  .hero h1 { font-size: var(--text-xl); }
 }
 </style>

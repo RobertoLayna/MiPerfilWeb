@@ -79,8 +79,9 @@ const translationsJSON = JSON.stringify(translations);
       function typeAnimate(el, newText, callback) {
         var oldText = el.textContent;
         var i = oldText.length;
-        var DELETE_MS = 12;
-        var TYPE_MS = 28;
+        var maxLen = Math.max(oldText.length, newText.length);
+        var DELETE_MS = maxLen > 120 ? 5 : 8;
+        var TYPE_MS = maxLen > 200 ? 10 : maxLen > 100 ? 16 : 22;
 
         function erase() {
           if (i <= 0) {

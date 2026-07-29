@@ -129,6 +129,10 @@ const experiences = [
   .experience-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 768px) {
+  .experience { padding: var(--section-y-tablet) 0; }
   .experience-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+  .experience { padding: var(--section-y-phone) 0; }
 }
 </style>
