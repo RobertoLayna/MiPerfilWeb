@@ -4,21 +4,36 @@ const experiences = [
     title: "Glyde & Glyde Unity",
     role: "Desarrollador Full Stack · 2 años",
     description: "Implementación de chats con IA que entrevistan talento, asistiendo el proceso de reclutamiento con agentes conversacionales inteligentes.",
-    tags: ["IA", "Chats", "Reclutamiento", "LLMs"],
+    tags: [
+      { text: "IA", i18n: "tag.ia" },
+      "Chats",
+      { text: "Reclutamiento", i18n: "tag.reclutamiento" },
+      "LLMs",
+    ],
     delay: "0",
   },
   {
     title: "USA Transfers",
     role: "Desarrollador de Sistemas · 7 años",
     description: "Desarrollo de sistemas de transporte turístico, torneos de golf, control de unidades, taller mecánico y logística operativa.",
-    tags: ["Transporte", "Golf", "Logística", "Operaciones"],
+    tags: [
+      { text: "Transporte", i18n: "tag.transporte" },
+      "Golf",
+      { text: "Logística", i18n: "tag.logistica" },
+      { text: "Operaciones", i18n: "tag.operaciones" },
+    ],
     delay: "120",
   },
   {
     title: "UPQROO — Universidad Politécnica de Quintana Roo",
     role: "Docente Universitario · 1 año",
     description: "Impartí materias de Algoritmos, Programación Orientada a Objetos y Aplicaciones Móviles en la UPQROO, Cancún.",
-    tags: ["Algoritmos", "POO", "Apps Móviles", "Docencia"],
+    tags: [
+      { text: "Algoritmos", i18n: "tag.algoritmos" },
+      { text: "POO", i18n: "tag.poo" },
+      { text: "Apps Móviles", i18n: "tag.apps-moviles" },
+      { text: "Docencia", i18n: "tag.docencia" },
+    ],
     delay: "240",
   },
 ];
@@ -26,16 +41,19 @@ const experiences = [
 
 <section class="experience" id="experience">
   <div class="container">
-    <p class="section-label reveal" data-reveal-delay="0">Experiencia</p>
-    <h2 class="section-title reveal" data-reveal-delay="80">Donde he colaborado</h2>
+    <p class="section-label reveal" data-reveal-delay="0" data-i18n="experience.label">Experiencia</p>
+    <h2 class="section-title reveal" data-reveal-delay="80" data-i18n="experience.title">Donde he colaborado</h2>
     <div class="experience-grid">
-      {experiences.map((exp) => (
+      {experiences.map((exp, idx) => (
         <div class="experience-card reveal" data-reveal-delay={exp.delay}>
           <h3>{exp.title}</h3>
-          <p class="exp-role">{exp.role}</p>
-          <p>{exp.description}</p>
+          <p class="exp-role" data-i18n={`experience.${idx + 1}.role`}>{exp.role}</p>
+          <p data-i18n={`experience.${idx + 1}.desc`}>{exp.description}</p>
           <div class="exp-tags">
-            {exp.tags.map((tag) => <span>{tag}</span>)}
+            {exp.tags.map((tag) => {
+              if (typeof tag === "string") return <span>{tag}</span>;
+              return <span data-i18n={tag.i18n}>{tag.text}</span>;
+            })}
           </div>
         </div>
       ))}

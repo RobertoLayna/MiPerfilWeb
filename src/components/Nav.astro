@@ -1,12 +1,16 @@
 <nav class="nav" id="nav">
   <div class="container">
     <a href="/" class="nav-logo">&lt;dev profile&gt;</a>
-    <ul class="nav-links">
-      <li><a href="#skills" data-section="skills">Stack</a></li>
-      <li><a href="#projects" data-section="projects">Proyectos</a></li>
-      <li><a href="#experience" data-section="experience">Experiencia</a></li>
-      <li><a href="#contact" data-section="contact">Contacto</a></li>
-    </ul>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="#about" data-section="about" data-i18n="nav.about">Sobre mí</a></li>
+        <li><a href="#skills" data-section="skills" data-i18n="nav.stack">Stack</a></li>
+        <li><a href="#projects" data-section="projects" data-i18n="nav.projects">Proyectos</a></li>
+        <li><a href="#experience" data-section="experience" data-i18n="nav.experience">Experiencia</a></li>
+        <li><a href="#contact" data-section="contact" data-i18n="nav.contact">Contacto</a></li>
+      </ul>
+      <slot name="actions" />
+    </div>
   </div>
 </nav>
 
@@ -32,6 +36,11 @@
   color: var(--fg);
   text-decoration: none;
   letter-spacing: 0.02em;
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
 }
 .nav-links {
   display: flex;

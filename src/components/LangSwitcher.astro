@@ -1,0 +1,64 @@
+<button class="lang-btn" type="button" id="langToggle" title="Cambiar idioma / Switch language">
+  <span class="lang-opt" data-lang="es">ES</span>
+  <span class="lang-divider"></span>
+  <span class="lang-opt" data-lang="en">EN</span>
+</button>
+
+<style>
+.lang-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-pill);
+  padding: 4px 5px;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 590;
+  letter-spacing: 0.03em;
+  transition: border-color var(--motion-fast) var(--ease-standard), box-shadow var(--motion-fast) var(--ease-standard);
+}
+.lang-btn:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent), transparent 85%);
+}
+.lang-opt {
+  padding: 3px 9px;
+  border-radius: var(--radius-pill);
+  color: var(--muted);
+  transition: background var(--motion-fast) var(--ease-standard), color var(--motion-fast) var(--ease-standard);
+}
+.lang-opt.active {
+  background: var(--accent);
+  color: var(--accent-on);
+}
+.lang-divider {
+  width: 1px;
+  height: 14px;
+  background: var(--border-soft);
+}
+</style>
+
+<script>
+  function syncToggle(lang) {
+    const opts = document.querySelectorAll("#langToggle .lang-opt");
+    opts.forEach((el) => {
+      el.classList.toggle("active", el.dataset.lang === lang);
+    });
+    document.documentElement.lang = lang;
+  }
+
+  document.getElementById("langToggle").addEventListener("click", () => {
+    const current = document.documentElement.lang || "es";
+    const next = current === "es" ? "en" : "es";
+    window.switchLang(next);
+    syncToggle(next);
+  });
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const lang = document.documentElement.lang || "es";
+    syncToggle(lang);
+  });
+</script>

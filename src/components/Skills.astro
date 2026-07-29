@@ -2,37 +2,58 @@
 const categories = [
   {
     title: "Frontend",
+    i18n: null,
     delay: "0",
     tags: ["React", "Vue.js", "Next.js", "Nuxt", "Astro", "Flutter", "Tailwind CSS", "Vuetify"],
   },
   {
     title: "Backend & Datos",
+    i18n: "skills.cat.backend",
     delay: "100",
     tags: ["NestJS", "Node.js", "Python", "PostgreSQL", "MongoDB", "Redis", "GraphQL", "REST APIs"],
   },
   {
     title: "Infra & Tiempo real",
+    i18n: "skills.cat.infra",
     delay: "200",
-    tags: ["Docker", "Microservicios", "BullMQ", "Sockets", "TypeScript", "JavaScript", "SQL"],
+    tags: [
+      "Docker",
+      { text: "Microservicios", i18n: "tag.microservicios" },
+      "BullMQ",
+      "Sockets",
+      "TypeScript",
+      "JavaScript",
+      "SQL",
+    ],
   },
   {
     title: "IA & LLMs",
+    i18n: "skills.cat.ai",
     delay: "300",
-    tags: ["LLMs", "RAG", "Agentes IA", "APIs de IA", "Prompt Engineering"],
+    tags: [
+      "LLMs",
+      "RAG",
+      { text: "Agentes IA", i18n: "tag.agentes-ia" },
+      { text: "APIs de IA", i18n: "tag.apis-de-ia" },
+      "Prompt Engineering",
+    ],
   },
 ];
 ---
 
 <section class="skills" id="skills">
   <div class="container">
-    <p class="section-label reveal" data-reveal-delay="0">Stack técnico</p>
-    <h2 class="section-title reveal" data-reveal-delay="80">Tecnologías con las que trabajo</h2>
+    <p class="section-label reveal" data-reveal-delay="0" data-i18n="skills.label">Stack técnico</p>
+    <h2 class="section-title reveal" data-reveal-delay="80" data-i18n="skills.title">Tecnologías con las que trabajo</h2>
     <div class="skills-grid">
       {categories.map((cat) => (
         <div class="skill-category reveal" data-reveal-delay={cat.delay}>
-          <h3>{cat.title}</h3>
+          <h3 data-i18n={cat.i18n}>{cat.title}</h3>
           <div class="skill-tags">
-            {cat.tags.map((tag) => <span class="skill-tag">{tag}</span>)}
+            {cat.tags.map((tag) => {
+              if (typeof tag === "string") return <span class="skill-tag">{tag}</span>;
+              return <span class="skill-tag" data-i18n={tag.i18n}>{tag.text}</span>;
+            })}
           </div>
         </div>
       ))}

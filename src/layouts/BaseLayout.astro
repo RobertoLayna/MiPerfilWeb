@@ -1,6 +1,9 @@
 ---
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
+import LangSwitcher from "../components/LangSwitcher.astro";
+import { translations } from "../i18n/translations.js";
+const translationsJSON = JSON.stringify(translations);
 ---
 
 <!DOCTYPE html>
@@ -14,11 +17,80 @@ import Footer from "../components/Footer.astro";
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,510;0,14..32,590;0,14..32,700&family=JetBrains+Mono:ital,wght@0,400;0,510;0,590&display=swap" rel="stylesheet">
 </head>
 <body>
-  <Nav />
+  <Nav>
+    <LangSwitcher slot="actions" />
+  </Nav>
   <main>
     <slot />
   </main>
   <Footer />
+  <script define:vars={{ translations }}>
+    window.__TRANSLATIONS__ = translations;
+    (function () {
+      if (window.__i18nBooted) return;
+      window.__i18nBooted = true;
+
+      const dict = window.__TRANSLATIONS__;
+      const DEFAULT = "es";
+      const STORAGE_KEY = "lang";
+
+      function getLang() {
+        try {
+          return localStorage.getItem(STORAGE_KEY) || DEFAULT;
+        } catch (_) {
+          return DEFAULT;
+        }
+      }
+
+      function apply(lang) {
+        document.querySelectorAll("[data-i18n]").forEach(function (el) {
+          var key = el.getAttribute("data-i18n");
+          var entry = dict[key];
+          if (!entry) return;
+          if (!el.hasAttribute("data-i18n-orig")) {
+            el.setAttribute("data-i18n-orig", el.textContent);
+          }
+          el.textContent = lang === DEFAULT
+            ? el.getAttribute("data-i18n-orig")
+            : (entry[lang] || entry[DEFAULT] || el.getAttribute("data-i18n-orig"));
+        });
+
+        document.querySelectorAll("[data-i18n-html]").forEach(function (el) {
+          var key = el.getAttribute("data-i18n-html");
+          var entry = dict[key];
+          if (!entry) return;
+          if (!el.hasAttribute("data-i18n-html-orig")) {
+            el.setAttribute("data-i18n-html-orig", el.innerHTML);
+          }
+          el.innerHTML = lang === DEFAULT
+            ? el.getAttribute("data-i18n-html-orig")
+            : (entry[lang] || entry[DEFAULT] || el.getAttribute("data-i18n-html-orig"));
+        });
+
+        document.documentElement.lang = lang;
+
+        var titleEntry = dict["page.title"];
+        if (titleEntry) {
+          document.title = titleEntry[lang] || titleEntry[DEFAULT] || document.title;
+        }
+      }
+
+      window.switchLang = function (lang) {
+        try { localStorage.setItem(STORAGE_KEY, lang); } catch (_) {}
+        apply(lang);
+      };
+
+      var saved = getLang();
+      document.documentElement.lang = saved;
+      if (saved !== DEFAULT) {
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", function () { apply(saved); });
+        } else {
+          apply(saved);
+        }
+      }
+    })();
+  </script>
 </body>
 </html>
 
@@ -197,6 +269,11 @@ body {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* ── Hero title accent (needed for i18n innerHTML swap) ── */
+.hero h1 span {
+  color: var(--accent);
 }
 
 /* ── Responsive ─────────────────────────────── */

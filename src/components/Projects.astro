@@ -37,14 +37,14 @@ const projects = [
 
 <section class="projects" id="projects">
   <div class="container">
-    <p class="section-label reveal" data-reveal-delay="0">Proyectos</p>
-    <h2 class="section-title reveal" data-reveal-delay="80">Lo que construí</h2>
+    <p class="section-label reveal" data-reveal-delay="0" data-i18n="projects.label">Proyectos</p>
+    <h2 class="section-title reveal" data-reveal-delay="80" data-i18n="projects.title">Lo que construí</h2>
     <div class="projects-grid">
-      {projects.map((proj) => (
+      {projects.map((proj, idx) => (
         <div class="project-card reveal" data-reveal-delay={proj.delay}>
           <h3>{proj.name}</h3>
-          <p class="project-role">{proj.role}</p>
-          <p>{proj.description}</p>
+          <p class="project-role" data-i18n={`projects.${idx + 1}.role`}>{proj.role}</p>
+          <p data-i18n={`projects.${idx + 1}.desc`}>{proj.description}</p>
           <div class="project-stack">
             {proj.stack.map((tech, i) => (
               <>
@@ -53,7 +53,7 @@ const projects = [
               </>
             ))}
           </div>
-          <a href={proj.link} class="project-link">&rarr; Ver proyecto</a>
+          <a href={proj.link} class="project-link" data-i18n="projects.link">&rarr; Ver proyecto</a>
         </div>
       ))}
     </div>
