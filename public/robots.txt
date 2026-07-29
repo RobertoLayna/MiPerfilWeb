@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://robertolayna.dev/sitemap-index.xml
+Sitemap: https://roberto.nopalsoft.net/sitemap-index.xml
