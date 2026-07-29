@@ -124,44 +124,45 @@ const translationsJSON = JSON.stringify(translations);
             ? el.getAttribute("data-i18n-orig")
             : (entry[lang] || entry[DEFAULT] || el.getAttribute("data-i18n-orig"));
           if (el.textContent === next) return;
-          var rect = el.getBoundingClientRect();
-          items.push({ el: el, text: next, top: rect.top + window.scrollY });
+          items.push({ el: el, text: next });
         });
 
-        items.sort(function (a, b) { return a.top - b.top; });
-
         typing = true;
-        var stagger = 60;
+        var remaining = items.length;
 
-        function run(i) {
-          if (i >= items.length) {
-            document.querySelectorAll("[data-i18n-html]").forEach(function (el) {
-              var key = el.getAttribute("data-i18n-html");
-              var entry = dict[key];
-              if (!entry) return;
-              if (!el.hasAttribute("data-i18n-html-orig")) {
-                el.setAttribute("data-i18n-html-orig", el.innerHTML);
-              }
-              el.innerHTML = lang === DEFAULT
-                ? el.getAttribute("data-i18n-html-orig")
-                : (entry[lang] || entry[DEFAULT] || el.getAttribute("data-i18n-html-orig"));
-            });
+        function oneDone() {
+          remaining--;
+          if (remaining > 0) return;
 
-            document.documentElement.lang = lang;
-            var titleEntry = dict["page.title"];
-            if (titleEntry) {
-              document.title = titleEntry[lang] || titleEntry[DEFAULT] || document.title;
+          document.querySelectorAll("[data-i18n-html]").forEach(function (el) {
+            var key = el.getAttribute("data-i18n-html");
+            var entry = dict[key];
+            if (!entry) return;
+            if (!el.hasAttribute("data-i18n-html-orig")) {
+              el.setAttribute("data-i18n-html-orig", el.innerHTML);
             }
-            typing = false;
-            if (btn) btn.disabled = false;
-            return;
-          }
-          var item = items[i];
-          typeAnimate(item.el, item.text, function () {
-            setTimeout(function () { run(i + 1); }, stagger);
+            el.innerHTML = lang === DEFAULT
+              ? el.getAttribute("data-i18n-html-orig")
+              : (entry[lang] || entry[DEFAULT] || el.getAttribute("data-i18n-html-orig"));
           });
+
+          document.documentElement.lang = lang;
+          var titleEntry = dict["page.title"];
+          if (titleEntry) {
+            document.title = titleEntry[lang] || titleEntry[DEFAULT] || document.title;
+          }
+          typing = false;
+          if (btn) btn.disabled = false;
         }
-        run(0);
+
+        if (remaining === 0) {
+          oneDone();
+          return;
+        }
+
+        for (var k = 0; k < items.length; k++) {
+          typeAnimate(items[k].el, items[k].text, oneDone);
+        }
       };
 
       var saved = getLang();
