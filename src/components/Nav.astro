@@ -136,8 +136,13 @@ import LangSwitcher from "./LangSwitcher.astro";
     display: none;
   }
 
+  :global(html) {
+    touch-action: manipulation;
+  }
+
   :global(body) {
-    padding-bottom: 74px;
+    padding-bottom: 78px;
+    overscroll-behavior-y: contain;
   }
 
   .bottom-nav {
@@ -162,7 +167,7 @@ import LangSwitcher from "./LangSwitcher.astro";
     flex-direction: column;
     align-items: center;
     gap: 2px;
-    padding: var(--space-1) var(--space-2);
+    padding: var(--space-2) var(--space-1);
     color: var(--fg-2);
     text-decoration: none;
     font-size: 11px;
@@ -172,10 +177,18 @@ import LangSwitcher from "./LangSwitcher.astro";
     flex: 1 1 0;
     border-radius: var(--radius-sm);
     transition: color var(--motion-fast) var(--ease-standard);
+    -webkit-tap-highlight-color: transparent;
+    min-height: 44px;
   }
 
   .bottom-nav-item:hover {
     color: var(--fg);
+  }
+
+  .bottom-nav-item:focus-visible {
+    box-shadow: var(--focus-ring);
+    outline: none;
+    border-radius: var(--radius-sm);
   }
 
   .bottom-nav-item.active {
@@ -187,7 +200,7 @@ import LangSwitcher from "./LangSwitcher.astro";
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    padding: var(--space-1) var(--space-2);
+    padding: var(--space-2) var(--space-1);
     min-width: 0;
     flex: 1 1 0;
   }
