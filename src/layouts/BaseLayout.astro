@@ -1,7 +1,6 @@
 ---
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
-import LangSwitcher from "../components/LangSwitcher.astro";
 import { translations } from "../i18n/translations.js";
 const site = "https://roberto.nopalsoft.net";
 const metaDesc = "Roberto Robles Layna — Full Stack Developer con 8+ años de experiencia. Especializado en Vue, React, Next.js, NestJS, Python, Flutter y arquitecturas cloud escalables.";
@@ -51,9 +50,7 @@ const schemaJSON = JSON.stringify({
   <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,400;0,14..32,510;0,14..32,590;0,14..32,700&family=JetBrains+Mono:ital,wght@0,400;0,510;0,590&display=swap" rel="stylesheet"></noscript>
 </head>
 <body>
-  <Nav>
-    <LangSwitcher slot="actions" />
-  </Nav>
+  <Nav />
   <main>
     <slot />
   </main>
@@ -142,8 +139,8 @@ const schemaJSON = JSON.stringify({
 
       window.switchLang = function (lang) {
         if (typing) return;
-        var btn = document.getElementById("langToggle");
-        if (btn) btn.disabled = true;
+        var btns = document.querySelectorAll(".lang-toggle");
+        btns.forEach(function(btn) { btn.disabled = true; });
         try { localStorage.setItem(STORAGE_KEY, lang); } catch (_) {}
 
         var items = [];
@@ -186,7 +183,7 @@ const schemaJSON = JSON.stringify({
             document.title = titleEntry[lang] || titleEntry[DEFAULT] || document.title;
           }
           typing = false;
-          if (btn) btn.disabled = false;
+          if (btns) btns.forEach(function(btn) { btn.disabled = false; });
         }
 
         if (remaining === 0) {

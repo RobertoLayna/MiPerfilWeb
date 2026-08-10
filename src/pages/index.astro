@@ -53,7 +53,7 @@ import Contact from "../components/Contact.astro";
     setTimeout(() => avatar.classList.add("glow"), 400);
   }
 
-  const navLinks = document.querySelectorAll(".nav-links a[data-section]");
+  const navLinks = document.querySelectorAll(".nav-links a[data-section], .bottom-nav-item[data-section]");
   const sections = document.querySelectorAll("section[id]");
   const sectionObserver = new IntersectionObserver(
     (entries) => {
