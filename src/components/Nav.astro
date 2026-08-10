@@ -18,45 +18,27 @@ import LangSwitcher from "./LangSwitcher.astro";
   </div>
 </nav>
 
-<nav class="bottom-nav" id="bottom-nav" aria-label="Navegación móvil">
-  <a href="#about" class="bottom-nav-item" data-section="about" data-i18n="nav.about">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/>
-      <circle cx="12" cy="7" r="4"/>
-    </svg>
-    <span>Sobre mí</span>
-  </a>
-  <a href="#skills" class="bottom-nav-item" data-section="skills" data-i18n="nav.stack">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="16 18 22 12 16 6"/>
-      <polyline points="8 6 2 12 8 18"/>
-    </svg>
-    <span>Stack</span>
-  </a>
-  <a href="#projects" class="bottom-nav-item" data-section="projects" data-i18n="nav.projects">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
-    </svg>
-    <span>Proyectos</span>
-  </a>
-  <a href="#experience" class="bottom-nav-item" data-section="experience" data-i18n="nav.experience">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
-      <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
-    </svg>
-    <span>Experiencia</span>
-  </a>
-  <a href="#contact" class="bottom-nav-item" data-section="contact" data-i18n="nav.contact">
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-      <polyline points="22,6 12,13 2,6"/>
-    </svg>
-    <span>Contacto</span>
-  </a>
-  <div class="bottom-nav-lang">
-    <LangSwitcher />
-  </div>
-</nav>
+<div class="mobile-bar" id="mobile-bar">
+  <a href="/" class="mobile-logo">&lt;dev profile&gt;</a>
+  <button class="hamburger" id="hamburger" type="button" aria-label="Abrir menú" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+</div>
+
+<div class="mobile-menu" id="mobile-menu">
+  <nav class="mobile-nav">
+    <a href="#about" data-section="about" data-i18n="nav.about">Sobre mí</a>
+    <a href="#skills" data-section="skills" data-i18n="nav.stack">Stack</a>
+    <a href="#projects" data-section="projects" data-i18n="nav.projects">Proyectos</a>
+    <a href="#experience" data-section="experience" data-i18n="nav.experience">Experiencia</a>
+    <a href="#contact" data-section="contact" data-i18n="nav.contact">Contacto</a>
+    <div class="mobile-lang">
+      <LangSwitcher />
+    </div>
+  </nav>
+</div>
 
 <style>
 .nav {
@@ -125,84 +107,202 @@ import LangSwitcher from "./LangSwitcher.astro";
   box-shadow: 0 1px 20px rgba(45, 36, 85, 0.08);
 }
 
-/* ── Bottom navigation ─────────────────── */
-.bottom-nav {
+/* ── Mobile bar & hamburger ────────────── */
+.mobile-bar,
+.mobile-menu {
   display: none;
 }
 
-/* ── Mobile: switch to bottom nav ──────── */
 @media (max-width: 768px) {
-  .nav {
-    display: none;
-  }
-
   :global(html) {
     touch-action: manipulation;
   }
 
   :global(body) {
-    padding-bottom: 78px;
     overscroll-behavior-y: contain;
   }
 
-  .bottom-nav {
-    display: flex;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 10;
-    background: color-mix(in oklab, var(--bg) 94%, transparent);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    border-top: 1px solid var(--border-soft);
-    padding: var(--space-2) var(--space-1);
-    padding-bottom: max(var(--space-2), env(safe-area-inset-bottom));
-    justify-content: space-around;
-    align-items: flex-start;
+  .nav {
+    display: none;
   }
 
-  .bottom-nav-item {
+  .mobile-bar {
+    display: flex;
+    position: sticky;
+    top: 0;
+    z-index: 11;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-3) var(--container-gutter-tablet);
+    background: var(--bg);
+    border-bottom: 1px solid transparent;
+    transition: border-color var(--motion-fast) var(--ease-standard);
+  }
+
+  .mobile-bar.scrolled {
+    border-bottom-color: var(--border-soft);
+  }
+
+  .mobile-logo {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    font-weight: 510;
+    color: var(--fg);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+  }
+
+  .hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 44px;
+    height: 44px;
+    padding: 10px;
+    background: none;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: background var(--motion-fast) var(--ease-standard);
+  }
+
+  .hamburger:hover {
+    background: var(--surface-warm);
+  }
+
+  .hamburger:focus-visible {
+    box-shadow: var(--focus-ring);
+    outline: none;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--fg);
+    border-radius: 2px;
+    transition: transform 0.3s var(--ease-standard), opacity 0.2s var(--ease-standard);
+    transform-origin: center;
+  }
+
+  .hamburger.open span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .hamburger.open span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+
+  .hamburger.open span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  /* ── Mobile menu overlay ───────────────── */
+  .mobile-menu {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+    background: var(--bg);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s var(--ease-standard), visibility 0.25s;
+  }
+
+  .mobile-menu.open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .mobile-nav {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2px;
-    padding: var(--space-2) var(--space-1);
-    color: var(--fg-2);
+    justify-content: center;
+    gap: var(--space-8);
+    height: 100%;
+    padding: var(--space-12);
+    padding-bottom: max(var(--space-12), env(safe-area-inset-bottom));
+  }
+
+  .mobile-nav a {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    font-weight: 590;
+    color: var(--fg);
     text-decoration: none;
-    font-size: 11px;
-    font-weight: 510;
-    letter-spacing: 0.02em;
-    min-width: 0;
-    flex: 1 1 0;
-    border-radius: var(--radius-sm);
+    letter-spacing: -0.01em;
     transition: color var(--motion-fast) var(--ease-standard);
     -webkit-tap-highlight-color: transparent;
-    min-height: 44px;
   }
 
-  .bottom-nav-item:hover {
-    color: var(--fg);
-  }
-
-  .bottom-nav-item:focus-visible {
-    box-shadow: var(--focus-ring);
-    outline: none;
-    border-radius: var(--radius-sm);
-  }
-
-  .bottom-nav-item.active {
+  .mobile-nav a:hover,
+  .mobile-nav a:active {
     color: var(--accent);
   }
 
-  .bottom-nav-lang {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    padding: var(--space-2) var(--space-1);
-    min-width: 0;
-    flex: 1 1 0;
+  .mobile-nav a.active {
+    color: var(--accent);
+  }
+
+  .mobile-lang {
+    margin-top: var(--space-4);
   }
 }
 </style>
+
+<script>
+  const hamburger = document.getElementById("hamburger");
+  const mobileMenu = document.getElementById("mobile-menu");
+  const mobileBar = document.getElementById("mobile-bar");
+  const mobileNavLinks = document.querySelectorAll(".mobile-nav a[data-section]");
+
+  function openMenu() {
+    hamburger.classList.add("open");
+    hamburger.setAttribute("aria-expanded", "true");
+    hamburger.setAttribute("aria-label", "Cerrar menú");
+    mobileMenu.classList.add("open");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeMenu() {
+    hamburger.classList.remove("open");
+    hamburger.setAttribute("aria-expanded", "false");
+    hamburger.setAttribute("aria-label", "Abrir menú");
+    mobileMenu.classList.remove("open");
+    document.body.style.overflow = "";
+  }
+
+  hamburger.addEventListener("click", () => {
+    hamburger.classList.contains("open") ? closeMenu() : openMenu();
+  });
+
+  mobileNavLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+      closeMenu();
+    });
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && hamburger.classList.contains("open")) {
+      closeMenu();
+      hamburger.focus();
+    }
+  });
+
+  let ticking = false;
+  window.addEventListener("scroll", () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        const scrolled = window.scrollY > 10;
+        mobileBar.classList.toggle("scrolled", scrolled);
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
+</script>
