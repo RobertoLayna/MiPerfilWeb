@@ -10,6 +10,7 @@
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
     "@astrojs/vercel": "^9.0.5",
+    "@vercel/speed-insights": "^2.1.0",
     "astro": "^5.7.0"
   }
 }
